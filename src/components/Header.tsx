@@ -21,8 +21,12 @@ export default function Header() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.location.pathname === "/") {
-        const threshold = window.innerHeight * 6;
-        setScrolled(window.scrollY > threshold);
+        const steelScrollSection = document.getElementById("steel-scroll");
+        const threshold = steelScrollSection
+          ? steelScrollSection.offsetTop + steelScrollSection.offsetHeight
+          : window.innerHeight;
+
+        setScrolled(window.scrollY >= threshold);
       } else {
         setScrolled(window.scrollY > 50);
       }
@@ -30,7 +34,12 @@ export default function Header() {
 
     handleScroll();
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   const pathname = usePathname();
