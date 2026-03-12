@@ -2,7 +2,7 @@
 
 export default function SteelScroll() {
     return (
-        <div className="relative h-screen w-full bg-black overflow-hidden">
+        <section id="steel-scroll" className="relative h-screen w-full bg-black overflow-hidden">
             <video
                 className="absolute inset-0 w-full h-full object-cover"
                 src="/sequence.mp4"
@@ -26,6 +26,6 @@ export default function SteelScroll() {
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
