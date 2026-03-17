@@ -5,7 +5,7 @@ export default function SteelScroll() {
         <section id="steel-scroll" className="relative h-screen w-full bg-black overflow-hidden">
             <video
                 className="absolute inset-0 w-full h-full object-cover"
-                src="/sequence.mp4"
+                src="/hero5.mp4"
                 autoPlay
                 muted
                 loop
