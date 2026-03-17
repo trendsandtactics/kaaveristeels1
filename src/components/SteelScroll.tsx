@@ -9,7 +9,7 @@ export default function SteelScroll() {
       {/* Background Video */}
       <video
         className="absolute inset-0 w-full h-full object-cover"
-        src="/enhanced-lack2.mp4"
+        src="/hero5.mp4"
         autoPlay
         muted
         loop
