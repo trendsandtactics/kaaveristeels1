@@ -1,99 +1,152 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Building2, Factory } from "lucide-react";
+
+const locations = [
+  {
+    title: "Head Office",
+    icon: Building2,
+    label: "Corporate Office",
+    address: [
+      "No-1, Shyam’s Court,",
+      "16/19 Judge Jambulingam Street,",
+      "Mylapore, Chennai - 600004",
+    ],
+    map: "https://maps.google.com/maps?q=No-1%20Shyams%20Court%20Judge%20Jambulingam%20Street%20Mylapore%20Chennai%20600004&t=&z=14&ie=UTF8&iwloc=&output=embed",
+  },
+  {
+    title: "Unit 1",
+    icon: Factory,
+    label: "Manufacturing Facility",
+    address: [
+      "No.7/1 & 4/3, Komal Road, Maruthur Village,",
+      "Therizhandur Post, Kuttalam Taluk,",
+      "Mayiladuthurai District - 609 808",
+    ],
+    map: "https://maps.google.com/maps?q=Komal%20Road%20Maruthur%20Village%20Therizhandur%20Mayiladuthurai%20609808&t=&z=14&ie=UTF8&iwloc=&output=embed",
+  },
+  {
+    title: "Unit 2",
+    icon: Factory,
+    label: "Manufacturing Facility",
+    address: [
+      "S.F.No: 22/1A, Musiri – Thuraiyur Main Road,",
+      "Jambunathapuram Post, Musiri Taluk,",
+      "Trichy – 621 205",
+    ],
+    map: "https://maps.google.com/maps?q=Musiri%20Thuraiyur%20Main%20Road%20Jambunathapuram%20Trichy%20621205&t=&z=14&ie=UTF8&iwloc=&output=embed",
+  },
+];
 
 export default function MapEmbed() {
-    return (
-        <section className="relative w-full py-24 px-6 md:px-12 bg-gray-50 overflow-hidden border-t border-gray-100">
-            <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col lg:flex-row items-stretch gap-0 bg-white shadow-2xl rounded-lg overflow-hidden border border-gray-200">
+  const [activeTab, setActiveTab] = useState(0);
 
-                    {/* 50% Content Area */}
-                    <div className="w-full lg:w-1/2 p-10 md:p-16 flex flex-col justify-center relative bg-white">
-                        {/* Decorative background elements inside content */}
-                        <div className="absolute top-0 left-0 w-32 h-32 bg-accent-red/5 blur-2xl pointer-events-none" />
-                        <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent-yellow/10 blur-2xl pointer-events-none" />
+  const activeLocation = locations[activeTab];
+  const Icon = activeLocation.icon;
 
-                        <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
-                            className="flex items-center gap-4 mb-6 relative z-10"
-                        >
-                            <div className="w-12 h-[2px] bg-accent-red" />
-                            <h2 className="font-body text-accent-red uppercase tracking-[0.2em] font-bold text-sm">Our Location</h2>
-                        </motion.div>
+  return (
+    <section className="relative w-full py-20 md:py-28 px-6 md:px-12 bg-gradient-to-b from-white to-[#f8f8f8] overflow-hidden">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="max-w-3xl mx-auto text-center mb-12 md:mb-16"
+        >
+          <p className="text-sm md:text-base uppercase tracking-[0.28em] text-accent-red font-semibold">
+            Our Locations
+          </p>
+          <h2 className="mt-4 text-4xl md:text-5xl font-heading font-bold text-black leading-tight">
+            Visit Our Office & Manufacturing Units
+          </h2>
+          <p className="mt-5 text-base md:text-lg text-black/65 leading-relaxed">
+            Explore our corporate office and production facilities across Tamil
+            Nadu, built to serve clients with trusted steel solutions and strong
+            infrastructure support.
+          </p>
+        </motion.div>
 
-                        <motion.h3
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="font-heading text-4xl md:text-5xl text-black mb-8 relative z-10"
-                        >
-                            Visit Our <span className="text-accent-red">Facilities</span>
-                        </motion.h3>
+        {/* Tabs */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10 md:mb-12">
+          {locations.map((loc, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(index)}
+              className={`px-5 md:px-7 py-3 rounded-full text-sm md:text-base font-semibold transition-all duration-300 border ${
+                activeTab === index
+                  ? "bg-accent-red text-white border-accent-red shadow-lg"
+                  : "bg-white text-black/70 border-black/10 hover:border-accent-red/40 hover:text-accent-red"
+              }`}
+            >
+              {loc.title}
+            </button>
+          ))}
+        </div>
 
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="space-y-8 relative z-10"
-                        >
-                            <div className="flex items-start gap-5">
-                                <div className="w-12 h-12 rounded-full bg-accent-red/10 flex items-center justify-center flex-shrink-0 border border-accent-red/20 shadow-sm">
-                                    <span className="text-accent-red text-xl">📍</span>
-                                </div>
-                                <div>
-                                    <h4 className="font-heading text-2xl text-black mb-2">Headquarters</h4>
-                                    <p className="font-body text-black/70 leading-relaxed font-medium">
-                                        KAAVERI TMT BARS & STRUCTURALS<br />
-                                        No.7/1 & 4/3, Komal Road,<br />
-                                        Maruthur Village, Therizhandur Post,<br />
-                                        Kuttalam Taluk, Mayiladuthurai<br />
-                                        District - 609 808
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-5">
-                                <div className="w-12 h-12 rounded-full bg-accent-yellow/20 flex items-center justify-center flex-shrink-0 border border-accent-yellow/30 shadow-sm">
-                                    <span className="text-accent-yellow text-xl">📞</span>
-                                </div>
-                                <div>
-                                    <h4 className="font-heading text-2xl text-black mb-2">Contact Lines</h4>
-                                    <p className="font-body text-black/70 leading-relaxed font-medium">
-                                        Mobile: +91 88558 24555<br />
-                                        Landline: 04123 456789<br />
-                                        Email: info@kaaveristeel.co.in
-                                    </p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    {/* 50% Map Container */}
-                    <div className="w-full lg:w-1/2 relative min-h-[400px] lg:min-h-full group bg-black">
-                        {/* The iframe map */}
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d31343.22727569314!2d79.716668!3d10.894945!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a551473ca1f3bdf%3A0xcf40526af31ae1e!2sPolagam%2C%20Tirumalairayan%20Pattinam%2C%20Puducherry!5e0!3m2!1sen!2sin!4v1770805749873!5m2!1sen!2sin"
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0 }}
-                            aria-hidden="false"
-                            tabIndex={0}
-                            className="absolute inset-0 grayscale-[50%] contrast-125 hover:grayscale-0 hover:contrast-100 transition-all duration-700 w-full h-full object-cover"
-                        />
-
-                        {/* Decorative styling overlays */}
-                        <div className="absolute inset-0 pointer-events-none border-l-4 border-accent-red/50 z-20" />
-                        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500 pointer-events-none z-10" />
-                    </div>
+        {/* Active Tab Content */}
+        <div className="relative overflow-hidden rounded-[28px] border border-black/10 bg-white shadow-[0_20px_60px_rgba(0,0,0,0.08)]">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="grid grid-cols-1 lg:grid-cols-2"
+            >
+              {/* Content */}
+              <div className="relative flex flex-col justify-center p-8 md:p-12 lg:p-14 bg-white">
+                <div className="inline-flex items-center gap-3 mb-5">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-accent-red/10 text-accent-red">
+                    <Icon size={22} />
+                  </div>
+                  <span className="rounded-full bg-black/5 px-4 py-2 text-xs md:text-sm font-semibold uppercase tracking-[0.2em] text-black/60">
+                    {activeLocation.label}
+                  </span>
                 </div>
-            </div>
-        </section>
-    );
+
+                <h3 className="text-3xl md:text-4xl font-heading font-bold text-black mb-6">
+                  {activeLocation.title}
+                </h3>
+
+                <div className="space-y-3 text-black/70 text-lg leading-relaxed">
+                  {activeLocation.address.map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
+
+                <div className="mt-8 flex items-center gap-3 text-accent-red font-semibold">
+                  <MapPin size={18} />
+                  <span className="text-sm md:text-base">
+                    Find us on Google Maps
+                  </span>
+                </div>
+
+                <div className="mt-8 h-[3px] w-24 rounded-full bg-accent-yellow" />
+              </div>
+
+              {/* Map */}
+              <div className="relative min-h-[320px] md:min-h-[420px] bg-[#f3f3f3]">
+                <div className="absolute inset-0">
+                  <iframe
+                    src={activeLocation.map}
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="h-full w-full"
+                  />
+                </div>
+                <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/8" />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </div>
+    </section>
+  );
 }
