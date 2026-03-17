@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -15,40 +16,33 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.location.pathname === "/") {
-        const steelScrollSection = document.getElementById("steel-scroll");
-        const threshold = steelScrollSection
-          ? steelScrollSection.offsetTop + steelScrollSection.offsetHeight
-          : window.innerHeight;
-
-        setScrolled(window.scrollY >= threshold);
-      } else {
-        setScrolled(window.scrollY > 50);
-      }
-    };
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, []);
+  const [scrolled, setScrolled] = useState(false);
 
   const pathname = usePathname();
   const isHomePage = pathname === "/";
 
-  const isHeroSection = isHomePage && !scrolled;
-  const headerBg = isHeroSection
+  useEffect(() => {
+    const handleScroll = () => {
+      // Header becomes solid after scrolling down 50px
+      setScrolled(window.scrollY > 50);
+    };
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const isTransparentHeader = isHomePage && !scrolled;
+
+  const headerBg = isTransparentHeader
     ? "bg-transparent py-6"
     : "bg-white shadow-sm py-4 border-b border-gray-200";
+
+  const currentLogo = isTransparentHeader ? "/logo3.png" : "/logo3.png";
 
   return (
     <header
@@ -59,11 +53,13 @@ export default function Header() {
           href="/"
           className="flex items-center z-50 transition-transform hover:scale-105"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/image/kaveerilogo.png"
+          <Image
+            src={currentLogo}
             alt="Kaaveri TMT Bars & Structural"
-            className="h-8 md:h-12 w-auto object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+            width={200}
+            height={56}
+            className="h-10 md:h-14 w-auto object-contain transition-all duration-500"
+            priority
           />
         </Link>
 
@@ -73,7 +69,7 @@ export default function Header() {
               key={link.name}
               href={link.href}
               className={`relative font-body text-[10px] md:text-xs uppercase tracking-[0.2em] transition-colors group overflow-hidden font-semibold ${
-                isHeroSection
+                isTransparentHeader
                   ? "text-white/90 hover:text-white"
                   : "text-black hover:text-accent-red"
               }`}
@@ -81,7 +77,7 @@ export default function Header() {
               {link.name}
               <span
                 className={`absolute bottom-0 left-0 w-full h-[2px] transform -translate-x-full transition-transform duration-300 group-hover:translate-x-0 ${
-                  isHeroSection ? "bg-white" : "bg-accent-red"
+                  isTransparentHeader ? "bg-white" : "bg-accent-red"
                 }`}
               />
             </Link>
@@ -96,24 +92,25 @@ export default function Header() {
         </nav>
 
         <button
-          className={`lg:hidden z-50 w-8 h-8 flex flex-col justify-center items-end gap-1 focus:outline-none ${
-            isHeroSection ? "text-white" : "text-black"
+          className={`lg:hidden z-50 w-8 h-8 flex flex-col justify-center items-end gap-1 ${
+            isTransparentHeader ? "text-white" : "text-black"
           }`}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
         >
           <span
             className={`block h-[2px] transition-all duration-300 ${
-              isHeroSection ? "bg-white" : "bg-black"
+              isTransparentHeader ? "bg-white" : "bg-black"
             } ${mobileMenuOpen ? "w-5 rotate-45 translate-y-[6px]" : "w-6"}`}
           />
           <span
             className={`block h-[2px] transition-all duration-300 ${
-              isHeroSection ? "bg-white" : "bg-black"
-            } ${mobileMenuOpen ? "w-5 opacity-0" : "w-5"}`}
+              isTransparentHeader ? "bg-white" : "bg-black"
+            } ${mobileMenuOpen ? "opacity-0 w-5" : "w-5"}`}
           />
           <span
             className={`block h-[2px] transition-all duration-300 ${
-              isHeroSection ? "bg-white" : "bg-black"
+              isTransparentHeader ? "bg-white" : "bg-black"
             } ${mobileMenuOpen ? "w-5 -rotate-45 -translate-y-[6px]" : "w-3"}`}
           />
         </button>
@@ -124,10 +121,10 @@ export default function Header() {
               initial={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
               animate={{ opacity: 1, clipPath: "circle(150% at 100% 0)" }}
               exit={{ opacity: 0, clipPath: "circle(0% at 100% 0)" }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
+              transition={{ duration: 0.5 }}
               className="fixed inset-0 bg-white/95 backdrop-blur-2xl z-40 flex flex-col items-center justify-center p-8"
             >
-              <div className="flex flex-col items-center gap-8 w-full max-w-sm mt-12">
+              <div className="flex flex-col items-center gap-8">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.name}
@@ -138,21 +135,12 @@ export default function Header() {
                     <Link
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="font-heading text-xl md:text-2xl text-black hover:text-gray-700 transition-colors"
+                      className="text-xl text-black"
                     >
                       {link.name}
                     </Link>
                   </motion.div>
                 ))}
-
-                <motion.button
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 }}
-                  className="mt-8 w-full py-3 bg-accent-red text-white font-body text-[10px] uppercase tracking-widest font-bold border-2 border-accent-red hover:bg-white hover:text-accent-red transition-all"
-                >
-                  Request Quote
-                </motion.button>
               </div>
             </motion.div>
           )}
