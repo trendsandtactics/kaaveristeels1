@@ -9,7 +9,7 @@ export default function SteelScroll() {
       {/* Background Video */}
       <video
         className="absolute top-0 left-0 w-full h-full object-cover"
-        src="/hero5.mp4"
+        src="/sequence.mp4"
         autoPlay
         muted
         loop
