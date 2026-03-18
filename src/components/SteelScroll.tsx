@@ -1,11 +1,10 @@
-
 "use client";
 
 export default function SteelScroll() {
   return (
     <section
       id="steel-scroll-section"
-      className="relative w-full h-screen overflow-hidden -mt-20 md:-mt-24"
+      className="relative w-full min-h-[calc(100svh+80px)] md:min-h-[calc(100svh+96px)] overflow-hidden -mt-20 md:-mt-24"
     >
       {/* Background Video */}
       <video
@@ -18,23 +17,21 @@ export default function SteelScroll() {
         preload="auto"
       />
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80 z-[1]" />
+      {/* Dark Overlay */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-black/20 via-black/40 to-black/80" />
 
-      {/* Content Wrapper aligned with header */}
+      {/* Content */}
       <div className="absolute inset-0 z-10 flex items-end">
-        <div className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-24">
-
-          <h2 className="font-heading text-3xl md:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] max-w-xl">
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-12 pb-24 md:pb-32">
+          <h2 className="max-w-xl font-heading text-3xl md:text-6xl text-white font-bold leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
             Building India&apos;s Future
           </h2>
 
           <button className="mt-8 px-8 py-4 bg-accent-yellow text-black font-bold text-sm md:text-lg uppercase tracking-wider rounded-sm shadow-[0_0_30px_rgba(234,179,8,0.35)] hover:scale-105 transition duration-300">
             Explore Our Products
           </button>
-
         </div>
       </div>
     </section>
   );
-}downloadhero1.mp4
+}
