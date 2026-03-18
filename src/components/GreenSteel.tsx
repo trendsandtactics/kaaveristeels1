@@ -84,7 +84,7 @@ export default function GreenSteel() {
           {/* LIMIT CERTIFICATE SIZE */}
           <div className="max-w-md w-full">
             <Image
-              src="/Green.jpg"
+              src="/Green.webp‎"
               alt="Green Steel Certificate"
               width={800}
               height={1100}
